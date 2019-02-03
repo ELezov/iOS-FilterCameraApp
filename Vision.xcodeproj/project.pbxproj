@@ -14,6 +14,7 @@
 		D5FC0D122204D9D20061E31A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D5FC0D102204D9D20061E31A /* LaunchScreen.storyboard */; };
 		D5FC0D1D2204D9D20061E31A /* VisionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FC0D1C2204D9D20061E31A /* VisionTests.swift */; };
 		D5FC0D282204D9D20061E31A /* VisionUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FC0D272204D9D20061E31A /* VisionUITests.swift */; };
+		D5FC0D362204DA3A0061E31A /* LiveCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FC0D352204DA3A0061E31A /* LiveCameraView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		D5FC0D232204D9D20061E31A /* VisionUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VisionUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5FC0D272204D9D20061E31A /* VisionUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionUITests.swift; sourceTree = "<group>"; };
 		D5FC0D292204D9D20061E31A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D5FC0D352204DA3A0061E31A /* LiveCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveCameraView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 				D5FC0D0E2204D9D20061E31A /* Assets.xcassets */,
 				D5FC0D102204D9D20061E31A /* LaunchScreen.storyboard */,
 				D5FC0D132204D9D20061E31A /* Info.plist */,
+				D5FC0D352204DA3A0061E31A /* LiveCameraView.swift */,
 			);
 			path = Vision;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 			files = (
 				D5FC0D0A2204D9D10061E31A /* ViewController.swift in Sources */,
 				D5FC0D082204D9D10061E31A /* AppDelegate.swift in Sources */,
+				D5FC0D362204DA3A0061E31A /* LiveCameraView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,7 +437,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = WNZNG5YT8F;
 				INFOPLIST_FILE = Vision/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -450,7 +456,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = WNZNG5YT8F;
 				INFOPLIST_FILE = Vision/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
