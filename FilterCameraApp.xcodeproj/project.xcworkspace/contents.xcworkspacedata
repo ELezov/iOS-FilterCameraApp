@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Vision.xcodeproj">
+      location = "self:/Users/39apple.ru/Desktop/Projects/iOS-FilterCameraApp/FilterCameraApp.xcodeproj">
    </FileRef>
 </Workspace>
