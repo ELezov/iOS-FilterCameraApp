@@ -38,7 +38,7 @@ class CaptureCameraManager: NSObject, CaptureCameraManagerable {
     
     
     
-    fileprivate let previewQuality: AVCaptureSession.Preset = .medium
+    fileprivate let previewQuality: AVCaptureSession.Preset = .high
     
     var currentPosition: AVCaptureDevice.Position = .front {
         didSet {
