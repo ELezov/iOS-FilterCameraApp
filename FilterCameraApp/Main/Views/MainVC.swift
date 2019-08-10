@@ -11,7 +11,6 @@ import UIKit
 import AVFoundation
 import RxCocoa
 import SnapKit
-import Photos
 
 class MainVC: BaseVC {
 
@@ -34,6 +33,12 @@ class MainVC: BaseVC {
     fileprivate var takePhotoButton: RoundAnimationButton = {
         let button = RoundAnimationButton()
         button.backgroundColor = UIColor.lightGray
+        return button
+    }()
+    
+    fileprivate var previewButton: UIButton = {
+        let button = UIButton()
+        button.imageView?.contentMode = .scaleAspectFill
         return button
     }()
     
@@ -147,10 +152,29 @@ fileprivate extension MainVC {
                 .disposed(by: disposeBag)
         }
         
+        func configurePreviewButton() {
+            view.addSubview(previewButton)
+            previewButton.snp.makeConstraints{
+                $0.height.equalTo(100);
+                $0.width.equalTo(75);
+                $0.bottom.equalToSuperview().offset(-16)
+                $0.leading.equalToSuperview().offset(16)
+            }
+            
+            previewButton.rx
+                .tap
+                .subscribe({ _ in
+                    self.showGallery(with: self.previewButton.image(for: .normal))
+            
+                })
+            .disposed(by: disposeBag)
+        }
+        
         configureMainView()
         configureSwipeGesture()
         configureChangeCameraButton()
         configureTakeButton()
+        configurePreviewButton()
     }
     
     func captureManagerSubscribes() {
@@ -175,6 +199,15 @@ fileprivate extension MainVC {
 
 fileprivate extension MainVC {
     
+    func showGallery(with image: UIImage?) {
+        guard let image = image else { return }
+        let vc = UIStoryboard.getController(GalleryVC.self)
+        vc.setup(image: image)
+        self.present(vc,
+                     animated: true,
+                     completion: nil)
+    }
+    
     func saveUIImageToAlbum(cgImage: CGImage) {
         
         let orientation: UIImage.Orientation =
@@ -184,47 +217,9 @@ fileprivate extension MainVC {
         let image = UIImage(cgImage: cgImage,
                             scale: 1.0,
                             orientation: orientation)
-        PHPhotoLibrary.requestAuthorization { [weak self] status in
-            switch status {
-            case .authorized:
-                PHPhotoLibrary.shared().performChanges({
-                    PHAssetChangeRequest.creationRequestForAsset(from: image)
-                }, completionHandler: nil)
-            default:
-                self?.showAlertNeedPermission()
-            }
-        }
-    }
-    
-    func showAlertNeedPermission() {
         
-        enum AlertConstants {
-            static let title = "Error"
-            static let message = "Please give access to photo library in settings"
-            
-            static let ok = "Ok"
-            static let goToSetting = "Go to settings"
-        }
+        previewButton.setImage(image,
+                               for: .normal)
         
-        let alertController = UIAlertController(title: AlertConstants.title,
-                                                message: AlertConstants.message,
-                                                preferredStyle: UIAlertController.Style.alert)
-        alertController.addAction(UIAlertAction(title: AlertConstants.ok,
-                                                style: UIAlertAction.Style.default,
-                                                handler: nil))
-        alertController.addAction(UIAlertAction(title: AlertConstants.goToSetting,
-                                                style: UIAlertAction.Style.default,
-                                                handler: { _ in
-            guard
-                let settingsUrl = URL(string: UIApplication.openSettingsURLString)
-            else { return }
-            
-            if UIApplication.shared.canOpenURL(settingsUrl) {
-                 UIApplication.shared.open(settingsUrl,
-                                           completionHandler: nil)
-            }
-        }))
-        self.present(alertController, animated: true, completion: nil)
     }
-    
 }

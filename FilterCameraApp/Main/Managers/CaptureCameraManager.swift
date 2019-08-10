@@ -25,6 +25,8 @@ class CaptureCameraManager: NSObject, CaptureCameraManagerable {
         static let sessionQueueLabel = "capture camera manager"
         static let previewBufferQueueLabel = "preview buffer queue"
         static let orientation: AVCaptureVideoOrientation = .portrait
+        static let previewQuality: AVCaptureSession.Preset = .high
+        static let isHighPhotoResolutionEnabled: Bool = true
     }
     
     var onSaveImage: OnSaveImage?
@@ -36,18 +38,12 @@ class CaptureCameraManager: NSObject, CaptureCameraManagerable {
     fileprivate let sessionQueue = DispatchQueue(label: Constants.sessionQueueLabel)
     fileprivate let context = CIContext()
     
-    
-    
-    fileprivate let previewQuality: AVCaptureSession.Preset = .high
-    
     var currentPosition: AVCaptureDevice.Position = .front {
         didSet {
             configurePermissions()
         }
     }
     
-    
-    var isHighResolutionPhotoEnabled: Bool = true
     var currentFilter: MainViewModel.FilterType = .withoutFilter
     
     // For capture photo
@@ -56,10 +52,10 @@ class CaptureCameraManager: NSObject, CaptureCameraManagerable {
         if let photoOutputConnection = output.connection(with: AVMediaType.video) {
             photoOutputConnection.videoOrientation = Constants.orientation
         }
-        output.isHighResolutionCaptureEnabled = true
+        output.isHighResolutionCaptureEnabled = Constants.isHighPhotoResolutionEnabled
         return output
     }()
-    
+
     func configurePermissions() {
         
         func requestCameraPermission() {
@@ -88,7 +84,7 @@ class CaptureCameraManager: NSObject, CaptureCameraManagerable {
     
     func savePhoto() {
         let settings = AVCapturePhotoSettings()
-        settings.isHighResolutionPhotoEnabled = isHighResolutionPhotoEnabled
+        settings.isHighResolutionPhotoEnabled = Constants.isHighPhotoResolutionEnabled
         photoOutput.capturePhoto(with: settings,
                                  delegate: self)
     }
@@ -158,6 +154,7 @@ fileprivate extension CaptureCameraManager {
             else {
                 return inputImage
         }
+        
         filter.setValue(inputImage, forKey: kCIInputImageKey)
         
         for param in filterComponent.parameters ?? [] {
@@ -170,8 +167,8 @@ fileprivate extension CaptureCameraManager {
             } else {
                 filter.setValue(param.value, forKey: param.key)
             }
-            
         }
+        
         return filter.outputImage ?? inputImage
     }
     
@@ -200,7 +197,7 @@ fileprivate extension CaptureCameraManager {
             setupCorrectFramerate(currentCamera: camera)
             let captureDeviceInput = try AVCaptureDeviceInput(device: camera)
             captureSession.cleanAll()
-            captureSession.sessionPreset = AVCaptureSession.Preset.photo
+            captureSession.sessionPreset = Constants.previewQuality
             if captureSession.canAddInput(captureDeviceInput) {
                 captureSession.addInput(captureDeviceInput)
             }
