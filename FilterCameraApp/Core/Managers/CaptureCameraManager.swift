@@ -109,14 +109,14 @@ extension CaptureCameraManager: AVCapturePhotoCaptureDelegate {
             let photoData = photo.fileDataRepresentation(),
             let photoOutputCI = CIImage(data: photoData)
         else { return }
-        
+
         let outputCIImage = getImageWithFilter(by: currentFilter,
                                                inputImage: photoOutputCI)
         guard
             let outputCGImage = context.createCGImage(outputCIImage,
                                                       from: outputCIImage.extent)
             else { return }
-        
+
         onSaveImage?(outputCGImage)
     }
 }
